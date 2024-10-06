@@ -1,7 +1,7 @@
 const { registerUser, loginUser, getUserByName, getUserByID } = require('../models/userModel')
 const jwt = require('jsonwebtoken')
 
-// Registration Controller
+// Registration Controller to handle Registration requests
 const register = async (req, res) => {
     try {
         await registerUser(req.body)
@@ -11,9 +11,10 @@ const register = async (req, res) => {
     }
 }
 
+// Login Controller to handle Login requests
 const login = async (req, res) => {
     try {
-        const user = await loginUser(req.body); // Assuming loginUser checks username & password
+        const user = await loginUser(req.body);
 
         if (!user) {
             return res.status(401).json({ error: 'Invalid credentials' });
@@ -27,7 +28,7 @@ const login = async (req, res) => {
         );
 
         return res.status(200).json({
-            message: 'Successfully Logged in',
+            message: `Successfully Logged in, welcome ${user.username}`,
             token: token // Return the token here
         });
     } catch (err) {
@@ -35,6 +36,7 @@ const login = async (req, res) => {
     }
 };
 
+// GetProfile controller to handle profile requests
 const getProfile = async (req, res) => {
     const userId = parseInt(req.params.id, 10);
     try {
