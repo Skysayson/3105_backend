@@ -5,8 +5,9 @@ const port = 3000;
 require('dotenv').config();
 
 // Import middlewares
-const { verifyToken } = require('./middleware/authMiddleWare');
-const { logRequests } = require('./middleware/logMiddleWare');
+const { verifyToken } = require('./middleware/authMiddleWare'); // Import Token Verification
+const { logRequests } = require('./middleware/logMiddleWare'); // Import logRequest
+const rateLimiter = require('./middleware/rateLimitMiddleWare'); // Import rate limiter
 
 // Import routes
 const userRoutes = require('./routes/user');
@@ -16,9 +17,12 @@ app.use(logRequests);
 
 // Parse JSON in incoming requests
 app.use(express.json());
+app.use(rateLimiter); // Apply rate limiter globally
+app.use(logRequests); // Logging middleware
 
+// Welcome message in root page
 app.get('/',(req,res) => {
-    res.send("3105-Backend Activity")
+    res.send("Welcome to Jonaz Juan Sayson's 3105-Backend Activity :D")
 })
 
 // Use the user routes
@@ -32,5 +36,5 @@ app.get('/api/profile', verifyToken, (req, res) => {
 
 // Start the server
 app.listen(port, () => {
-    console.log(`App listening on port ${port}`);
+    console.log(`App listening on http://localhost:${port}`);
 });
