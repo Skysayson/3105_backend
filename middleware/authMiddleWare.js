@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken')
 
+// Middleware used to verify the JWT created by the login controller
 const verifyToken = (req,res,next) => {
     const token = req.headers['authorization']
 
